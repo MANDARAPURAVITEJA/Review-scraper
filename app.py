@@ -3,6 +3,8 @@ from flask_cors import CORS,cross_origin
 import requests
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
+import os
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -29,13 +31,10 @@ def index():
             prodRes = requests.get(productLink)
             prodRes.encoding='utf-8'
             prod_html = bs(prodRes.text, "html.parser")
-            print(prod_html)
+            #print(prod_html)
             commentboxes = prod_html.find_all('div', {'class': "_16PBlm"})
 
-            filename = searchString + ".csv"
-            fw = open(filename, "w")
-            headers = "Product, Customer Name, Rating, Heading, Comment \n"
-            fw.write(headers)
+            ########
             reviews = []
             for commentbox in commentboxes:
                 try:
@@ -69,6 +68,15 @@ def index():
                 mydict = {"Product": searchString, "Name": name, "Rating": rating, "CommentHead": commentHead,
                           "Comment": custComment}
                 reviews.append(mydict)
+
+            filename = searchString + ".csv"
+            # fw = open(filename, "w")
+            # headers = "Product, Customer Name, Rating, Heading, Comment \n"
+            # fw.write(headers)
+            
+            os.makedirs(os.getcwd()+"\\Reviews",exist_ok=True)
+            reviews1=pd.DataFrame(reviews)
+            reviews1.to_csv (os.getcwd()+"\\Reviews\\"+filename, index = False, header=False)
             return render_template('results.html', reviews=reviews[0:(len(reviews)-1)])
         except Exception as e:
             print('The Exception message is: ',e)
