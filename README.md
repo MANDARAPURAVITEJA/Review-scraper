@@ -1,7 +1,7 @@
-# Review Scrapper 📜
+# Review Scraper 📜
 
 ## About Project
-Review Scrapper is a Python project aims at building an application for getting reviews for a product in E-commerce website.
+Review Scraper is a Python project aims at building an application for getting reviews for a product in E-commerce website.
 The project was build on Python Flask framework and integrated with Web API. Deployed the application in Railway app.
 
 Link for the application: https://web-production-5c0a.up.railway.app/
